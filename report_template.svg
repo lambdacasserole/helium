@@ -887,17 +887,35 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Monofur;-inkscape-font-specification:Monofur;fill:#ffffff;stroke-width:0.092468"
          id="path916-1" />
     </g>
-    <text
-       xml:space="preserve"
-       style="font-size:19.7556px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="102.07991"
-       y="30.724087"
-       id="text1151"><tspan
-         sodipodi:role="line"
-         id="tspan1149"
-         x="102.07991"
-         y="30.724087"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583">Helium</tspan></text>
+    <g
+       aria-label="Helium"
+       id="text1151"
+       style="font-size:19.7556px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583">
+      <path
+         d="m 110.5172,30.106724 q 0,0.617363 -0.61736,0.617363 -0.61737,0 -0.61737,-0.617363 v -4.9389 h -4.52732 v 4.9389 q 0,0.617363 -0.61736,0.617363 -0.61737,0 -0.61737,-0.617363 V 18.994199 q 0,-0.617362 0.61737,-0.617362 0.61736,0 0.61736,0.617362 v 4.9389 h 4.52732 v -4.9389 q 0,-0.617362 0.61737,-0.617362 0.61736,0 0.61736,0.617362 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1016" />
+      <path
+         d="m 121.22638,28.246405 q 0,0.156399 -0.0988,0.337492 -0.56797,0.98778 -1.70392,1.572216 -1.07833,0.567974 -2.26366,0.567974 -1.85209,0 -3.19382,-1.226494 -1.39113,-1.259419 -1.39113,-3.095044 0,-1.835624 1.39113,-3.095044 1.34173,-1.226493 3.19382,-1.226493 0.67498,0 1.40758,0.238713 0.82315,0.27164 1.63807,0.864308 1.01248,0.740835 1.01248,1.407586 0,0.32926 -0.32103,0.502122 l -6.23948,3.358452 q 1.01248,1.037169 2.50238,1.037169 1.58868,0 2.56823,-1.103021 0.11524,-0.148167 0.34572,-0.452733 0.23871,-0.304565 0.51035,-0.304565 0.24695,0 0.4445,0.181093 0.19756,0.181093 0.19756,0.436269 z m -1.55575,-3.893499 q -1.00425,-1.037169 -2.51061,-1.037169 -1.3335,0 -2.32128,0.864307 -1.02894,0.905465 -1.02894,2.222505 0,0.526816 0.18109,1.004243 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1018" />
+      <path
+         d="m 131.10418,28.863768 q 0,0.172861 -0.1317,0.378649 -0.43627,0.666751 -1.30058,1.086558 -0.82315,0.395112 -1.66276,0.395112 -1.53106,0 -2.61762,-1.086558 -1.08656,-1.086558 -1.08656,-2.617617 v -8.025713 q 0,-0.617362 0.61736,-0.617362 0.61737,0 0.61737,0.617362 v 8.025713 q 0,1.020706 0.72437,1.745078 0.72437,0.724372 1.74508,0.724372 0.89723,0 1.59691,-0.617363 0.70791,-0.625594 0.85607,-0.625594 0.25518,0 0.4445,0.189325 0.19756,0.181093 0.19756,0.428038 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1020" />
+      <path
+         d="m 137.5906,19.315228 q 0,0.38688 -0.27987,0.650288 -0.27164,0.263408 -0.65852,0.263408 -0.38688,0 -0.66675,-0.263408 -0.27164,-0.263408 -0.27164,-0.650288 0,-0.386881 0.27164,-0.65852 0.27987,-0.279871 0.66675,-0.279871 0.38688,0 0.65852,0.279871 0.27987,0.271639 0.27987,0.65852 z m 2.14842,10.791496 q 0,0.617363 -0.61736,0.617363 h -2.46945 q -0.61736,0 -0.61736,-0.617363 v -6.790987 h -1.85209 q -0.61736,0 -0.61736,-0.617363 0,-0.617362 0.61736,-0.617362 h 2.47768 q 0.60913,0 0.60913,0.617362 v 6.790988 h 1.85209 q 0.61736,0 0.61736,0.617362 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1022" />
+      <path
+         d="m 150.43997,26.814124 q 0,1.621606 -1.14418,2.765784 -1.14417,1.144179 -2.76578,1.144179 -1.62161,0 -2.76578,-1.144179 -1.14418,-1.144178 -1.14418,-2.765784 v -4.11575 q 0,-0.617362 0.61736,-0.617362 0.61736,0 0.61736,0.617362 v 4.11575 q 0,1.103021 0.782,1.893245 0.79022,0.781993 1.89324,0.781993 1.10302,0 1.88501,-0.781993 0.79023,-0.790224 0.79023,-1.893245 v -4.11575 q 0,-0.617362 0.61736,-0.617362 0.61736,0 0.61736,0.617362 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1024" />
+      <path
+         d="m 160.72935,30.106724 q 0,0.617363 -0.61736,0.617363 -0.61737,0 -0.61737,-0.617363 v -5.556262 q 0,-0.510353 -0.36218,-0.872539 -0.36219,-0.362186 -0.87254,-0.362186 -0.51036,0 -0.87254,0.362186 -0.36219,0.362186 -0.36219,0.872539 v 5.556262 q 0,0.617363 -0.61736,0.617363 -0.61736,0 -0.61736,-0.617363 v -5.556262 q 0,-0.510353 -0.36219,-0.872539 -0.36218,-0.362186 -0.87254,-0.362186 -0.51035,0 -0.87254,0.362186 -0.36218,0.362186 -0.36218,0.872539 v 5.556262 q 0,0.617363 -0.61736,0.617363 -0.61737,0 -0.61737,-0.617363 v -7.40835 q 0,-0.617362 0.61737,-0.617362 0.4198,0 0.56797,0.362186 0.59267,-0.362186 1.28411,-0.362186 1.11126,0 1.85209,0.839613 0.74084,-0.839613 1.85209,-0.839613 1.0207,0 1.74508,0.724372 0.72437,0.724372 0.72437,1.745078 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.7556px;font-family:Monofur;-inkscape-font-specification:Monofur;stroke-width:0.264583"
+         id="path1026" />
+    </g>
     <rect
        style="fill:#800000;stroke:none;stroke-width:1.26231;fill-opacity:1"
        id="rect833-3-7-2"
