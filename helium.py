@@ -1,7 +1,7 @@
 import base64
 import glob
 import json
-import os.path 
+import os.path
 import re
 from datetime import datetime
 from shutil import copyfile
@@ -70,7 +70,7 @@ def initialize_report_svg (path):
 
 
 def svg_to_pdf (svg_path, pdf_path):
-    """ Converts an SVG file to a PDF file. 
+    """ Converts an SVG file to a PDF file.
 
     Args:
         svg_path (str): The path of the input SVG file
@@ -171,7 +171,7 @@ def grade_cc (cc):
         (31, 'D'),
         (41, 'E') # Add additional bounds here.
     ]
-    for bound in bounds: 
+    for bound in bounds:
         if cc < bound[0]:
             return bound[1] # Return bound corresponding to grade.
     return 'F' # Out of bounds, lowest grade.
@@ -223,7 +223,7 @@ def compute_cc_color (cc_rank):
 
 def hex_byte (n):
     """ Computes a minimum 2-character hexadecimal byte for an integer 0-255.
-    
+
     Args:
         n (int): The integer to compute for
     Returns:
@@ -238,7 +238,7 @@ if not os.path.exists(CONFIG_LOCATION):
     if confirm.lower() == 'y':
         proj_name = input('Project name: ') # Choose project name.
         # File selector pattern defaults to all *.py files.
-        proj_pattern = input('Pattern (leave blank for all Python files): ') 
+        proj_pattern = input('Pattern (leave blank for all Python files): ')
         if proj_pattern == '':
             proj_pattern = './**/*.py'
         # Adjust default config structure according to input and write it out as a JSON file.
@@ -272,7 +272,7 @@ mi_harvester = MIHarvester(files, Config(**config['mi_config']))
 
 # Fill project name and report generation date.
 fill_template(temp_svg, [
-    ('proj_name', config['name']), 
+    ('proj_name', config['name']),
     ('report_date', datetime.now().strftime('%d/%m/%Y %H:%M:%S'))]
 )
 
@@ -301,7 +301,7 @@ lowest_mi_results = mi_results[:DISPL_MI_RESULTS]
 i = 1
 for result in lowest_mi_results:
     fill_template(temp_svg, [
-        (f'm{i}', result['rank']), 
+        (f'm{i}', result['rank']),
         (f'mq{i}', str(round(result['mi'], 2))),
         (f'mf_{i}', result['path'])
     ])
@@ -342,7 +342,7 @@ highest_cc_results = cc_results[:DISPL_CC_RESULTS]
 i = 1
 for result in highest_cc_results:
     fill_template(temp_svg, [
-        (f'cc{i}', result['rank']), 
+        (f'cc{i}', result['rank']),
         (f'ccq{i}', str(result['complexity'])),
         (f'ccn{i}', result['name']),
         (f'ccf{i}', basename_only(result['path'])),
