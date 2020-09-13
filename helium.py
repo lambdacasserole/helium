@@ -286,11 +286,6 @@ for result in mi_harvester.results:
         'rank': props['rank']
     })
 
-# Can't fill template with too few results.
-if len(mi_results) < DISPL_MI_RESULTS:
-    print(f"Error: Not enough maintainability results to generate report (minimum {DISPL_MI_RESULTS} required).")
-    exit(1)
-
 # Sort lowest maintainability index first.
 mi_results.sort(key=lambda r: r['mi'])
 
@@ -307,6 +302,18 @@ for result in lowest_mi_results:
     ])
     replace_in_file(temp_svg, [ # Colour circles.
         (f'#ff{hex_byte(i)}ff', compute_mi_color(result['rank'])),
+    ])
+    i += 1
+
+# Fill in rest of MIs with blanks if we haven't made display quota.
+while i <= DISPL_MI_RESULTS:
+    fill_template(temp_svg, [
+        (f'm{i}', 'N/A'),
+        (f'mq{i}', 'N/A'),
+        (f'mf_{i}', 'N/A')
+    ])
+    replace_in_file(temp_svg, [ # Colour circles.
+        (f'#ff{hex_byte(i)}ff', '#c0c0c0'),
     ])
     i += 1
 
@@ -327,11 +334,6 @@ for result in cc_harvester.results:
                 'rank': grade_cc(node.complexity) # Grades need to be done manually.
             })
 
-# Can't fill template with too few results.
-if len(cc_results) < DISPL_CC_RESULTS:
-    print(f"Error: Not enough cyclomatic complexity results to generate report (minimum {DISPL_CC_RESULTS} required).")
-    exit(1)
-
 # Sort highest cyclomatic complexity first.
 cc_results.sort(key=lambda r: r['complexity'], reverse=True)
 
@@ -349,6 +351,19 @@ for result in highest_cc_results:
     ])
     replace_in_file(temp_svg, [ # Colour circles.
         (f'#ff{hex_byte(i + DISPL_MI_RESULTS)}ff', compute_cc_color(result['rank'])),
+    ])
+    i += 1
+
+# Fill in rest of CCs with blanks if we haven't made display quota.
+while i <= DISPL_MI_RESULTS + DISPL_CC_RESULTS:
+    fill_template(temp_svg, [
+        (f'cc{i}', 'N/A'),
+        (f'ccq{i}', 'N/A'),
+        (f'ccn{i}', 'N/A'),
+        (f'ccf{i}', 'N/A'),
+    ])
+    replace_in_file(temp_svg, [ # Colour squares.
+        (f'#ff{hex_byte(i)}ff', '#c0c0c0'),
     ])
     i += 1
 
