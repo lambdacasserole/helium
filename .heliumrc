@@ -1,0 +1,25 @@
+{
+    "name": "Helium",
+    "pattern": "./**/*.py",
+    "separate_metrics": false,
+    "excludes": [
+        "./helium_packed.py"
+    ],
+    "mi_config": {
+        "exclude": [],
+        "ignore": [],
+        "multi": true,
+        "min": "A",
+        "max": "F",
+        "show": true
+    },
+    "cc_config": {
+        "exclude": [],
+        "ignore": [],
+        "no_assert": true,
+        "show_closures": true,
+        "max": "F",
+        "min": "A",
+        "order": null
+    }
+}
