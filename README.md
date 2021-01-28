@@ -12,8 +12,25 @@ with more documentation, or a bit of a refactor.
 Helium computes quantitative metrics from your code using the [Radon](https://github.com/rubik/radon) library and
 renders a single-page report from these by filling an SVG template and converting this to a PDF.
 
+### Setup
+You'll need to set up the virtrual environment for the project like so:
+
+```bash
+bash setup_venv.sh
+```
+
+Note that you'll need to set up the virtual environment, activate it and install the dependencies in requirements.txt
+manually if you're on Windows:
+
+```bash
+python3 -m venv venv
+source ./venv/Scripts/activate
+pip install -r requirements.txt
+```
+
 ## Installation
-The script does not require installation. Just download it and run it like so:
+The script does not require installation. Just download it and run it like so from the virtual environment you
+configured above:
 
 ```bash
 python3 helium.py
@@ -65,7 +82,8 @@ highlight colours leave off. Very hacky, but works in a pinch.
 ## Packing
 It's possible to pack the file `report_template.svg` into the `helium.py` script in order to create one portable script
 file for report generation. This can be useful if you want the `helium.py` file to stand alone without any dependency
-on other files in the same directory. To do this, make any adjustments you like to `report_template.svg` and run:
+on other files in the same directory. To do this, make any adjustments you like to `report_template.svg`, ensure you've
+set up your virtual environment and run:
 
 ```bash
 bash he_pack.sh
