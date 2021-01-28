@@ -3,7 +3,8 @@
     "pattern": "./**/*.py",
     "separate_metrics": false,
     "excludes": [
-        "./helium_packed.py"
+        "./helium_packed.py",
+        "./venv"
     ],
     "mi_config": {
         "exclude": [],

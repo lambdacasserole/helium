@@ -21,7 +21,10 @@ DEFAULT_CONFIG = {
     'name': 'Unnamed project',
     'pattern': './**/*.py',
     'separate_metrics': False,
-    'excludes': [],
+    'excludes': [
+        "./helium_packed.py",
+        "./venv"
+    ],
     'mi_config': {
         'exclude': [],
         'ignore': [],
@@ -221,6 +224,33 @@ def compute_cc_color (cc_rank):
     }[cc_rank]
 
 
+def normalize_path (path):
+    """ Normalizes the case and format of a file path, and converts it to absolute form.
+
+    Args:
+        path (str): The path to normalize
+    Returns:
+        str: The normalized path
+    """
+    return os.path.normpath(os.path.normcase(os.path.abspath(path)))
+
+
+def is_inside_dir (file_path, dir_path):
+    """ Checks if a file path resides inside a directory path.
+
+    Args:
+        file_path (str): The file path to check
+        dir_path (str): The directory path to check
+    Returns:
+        bool: True if the file path resides inside the directory path, otherwise False
+    """
+    # First, completely normalize both paths.
+    norm_file_path = normalize_path(file_path)
+    norm_dir_path = normalize_path(dir_path)
+    # Now, check if the file path is longer than and starts with the directory path.
+    return len(norm_file_path) > len(norm_dir_path) and norm_file_path.startswith(norm_dir_path)
+
+
 def hex_byte (n):
     """ Computes a minimum 2-character hexadecimal byte for an integer 0-255.
 
@@ -259,9 +289,22 @@ if not os.path.exists(CONFIG_LOCATION):
 config = load_json_file(CONFIG_LOCATION)
 
 # Discover files and remove excluded.
-files = glob.glob(config['pattern'], recursive=True)
-for exclude in config['excludes']:
-    files.remove(exclude)
+files = []
+all_files = glob.glob(config['pattern'], recursive=True)
+for file in all_files:
+    is_excluded = False
+    for exclude in config['excludes']:
+        if os.path.isfile(exclude): # If we're excluding a specific file...
+            if os.path.samefile(file, exclude):
+                is_excluded = True # File is excluded.
+                break
+        elif os.path.isdir(exclude): # If we're excluding a whole directory...
+            if is_inside_dir(file, exclude):
+                is_excluded = True # File is excluded.
+                break
+    # Only add file if it's not excluded.
+    if not is_excluded:
+        files.append(file)
 
 # Generate report page.
 temp_svg = mkstemp()[1]
