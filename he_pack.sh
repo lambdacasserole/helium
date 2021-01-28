@@ -4,6 +4,9 @@
 # Author: Saul Johnson <saul.a.johnson@gmail.com>
 # Packing script for the Helium report generator. Bundles report template as base64 inside script.
 
+# Activate virtual environment.
+. venv/bin/activate
+
 # Input and output filenames.
 HELIUM_SCRIPT="./helium.py"
 HELIUM_PACKED_OUT="./helium_packed.py"
@@ -19,3 +22,6 @@ SUFFIX="$(tail -n +$(( ${LINE_NO} + 1 )) ${HELIUM_SCRIPT})"
 echo "${PREFIX}" > ${HELIUM_PACKED_OUT}
 echo "REPORT_SVG = \"\"\"$(base64 ${HELIUM_SCRIPT})\"\"\"" >> ${HELIUM_PACKED_OUT}
 echo "${SUFFIX}" >> ${HELIUM_PACKED_OUT}
+
+# Deactivate virtual environment.
+deactivate
