@@ -18,34 +18,31 @@ import cairosvg as cairo
 
 # Default configuration file to assist with interactive project initialization.
 DEFAULT_CONFIG = {
-    'name': 'Unnamed project',
-    'pattern': './**/*.py',
-    'separate_metrics': False,
-    'excludes': [
-        "./helium_packed.py",
-        "./venv"
-    ],
-    'mi_config': {
-        'exclude': [],
-        'ignore': [],
-        'multi': True,
-        'min': 'A',
-        'max': 'F',
-        'show': True
+    "name": "Unnamed project",
+    "pattern": "./**/*.py",
+    "separate_metrics": False,
+    "excludes": ["./helium_packed.py", "./venv"],
+    "mi_config": {
+        "exclude": [],
+        "ignore": [],
+        "multi": True,
+        "min": "A",
+        "max": "F",
+        "show": True,
     },
-    'cc_config': {
-        'exclude': [],
-        'ignore': [],
-        'no_assert': True,
-        'show_closures': True,
-        'max': 'F',
-        'min': 'A',
-        'order': None
-    }
+    "cc_config": {
+        "exclude": [],
+        "ignore": [],
+        "no_assert": True,
+        "show_closures": True,
+        "max": "F",
+        "min": "A",
+        "order": None,
+    },
 }
 
 # Default location of configuration file.
-CONFIG_LOCATION = './.heliumrc'
+CONFIG_LOCATION = "./.heliumrc"
 
 # Number of maintainability index results to display.
 DISPL_MI_RESULTS = 3
@@ -54,36 +51,42 @@ DISPL_MI_RESULTS = 3
 DISPL_CC_RESULTS = 8
 
 # Either report SVG file location, or SVG base64.
-REPORT_SVG = 'file:./report_template.svg'
+REPORT_SVG = "file:./report_template.svg"
 
 
-def initialize_report_svg (path):
-    """ Initializes the SVG file representing the report template at the specified file path.
+def initialize_report_svg(path):
+    """Initializes the SVG file representing the report template at the specified file path.
 
     Args:
         path (str): The path to initialize the report template SVG at
     """
-    if REPORT_SVG.startswith('file:'): # If template is file-based...
-        template_path = REPORT_SVG.split(':')[1]
-        copyfile(template_path, path) # Copy template file to destination.
+    config = load_json_file(CONFIG_LOCATION)
+    if (
+        "report_svg" in config
+    ):  # Template may be embedded in .heliumrc as a base64 string.
+        with open(path, "wb") as file:
+            file.write(base64.b64decode(config["report_svg"]))
+    elif REPORT_SVG.startswith("file:"):  # If template is file-based...
+        template_path = REPORT_SVG.split(":")[1]
+        copyfile(template_path, path)  # Copy template file to destination.
     else:
         # Otherwise, we have a base64 string that needs to be written to disk as a file.
-        with open(path, 'wb') as file:
+        with open(path, "wb") as file:
             file.write(base64.b64decode(REPORT_SVG))
 
 
-def svg_to_pdf (svg_path, pdf_path):
-    """ Converts an SVG file to a PDF file.
+def svg_to_pdf(svg_path, pdf_path):
+    """Converts an SVG file to a PDF file.
 
     Args:
         svg_path (str): The path of the input SVG file
         pdf_path (str): The path of the output PDF file
     """
-    cairo.svg2pdf(file_obj=open(svg_path, 'rb'), write_to=pdf_path)
+    cairo.svg2pdf(file_obj=open(svg_path, "rb"), write_to=pdf_path)
 
 
-def load_file (path):
-    """ Reads a file as a string.
+def load_file(path):
+    """Reads a file as a string.
 
     Args:
         path (str): The path of the file to read
@@ -96,8 +99,8 @@ def load_file (path):
     return buffer
 
 
-def load_json_file (path):
-    """ Loads a JSON object from a file.
+def load_json_file(path):
+    """Loads a JSON object from a file.
 
     Args:
         path (str): The path of the input JSON file
@@ -107,8 +110,8 @@ def load_json_file (path):
     return json.loads(load_file(path))
 
 
-def replace_in_file (path, subs):
-    """ Performs a set of substitutions in a text file.
+def replace_in_file(path, subs):
+    """Performs a set of substitutions in a text file.
 
     Args:
         path (str): The path of the target file
@@ -126,13 +129,13 @@ def replace_in_file (path, subs):
             for old, new in compiled_subs:
                 processed_line = re.sub(old, new, processed_line)
             buffer.append(processed_line)
-    with open(path, 'w') as file:
+    with open(path, "w") as file:
         for line in buffer:
             file.write(line)
 
 
-def bracket_sub (sub, comment=False):
-    """ Brackets a substitution pair.
+def bracket_sub(sub, comment=False):
+    """Brackets a substitution pair.
 
     Args:
         sub (tuple): The substitution pair to bracket
@@ -141,13 +144,13 @@ def bracket_sub (sub, comment=False):
         tuple: The bracketed substitution pair
     """
     if comment:
-        return (r'<!--\s*\{\{\s*' + sub[0] + r'\s*\}\}\s*-->', sub[1])
+        return (r"<!--\s*\{\{\s*" + sub[0] + r"\s*\}\}\s*-->", sub[1])
     else:
-        return (r'\{\{\s*' + sub[0] + r'\s*\}\}', sub[1])
+        return (r"\{\{\s*" + sub[0] + r"\s*\}\}", sub[1])
 
 
-def fill_template (path, subs, comment=False):
-    """ Fills a template file.
+def fill_template(path, subs, comment=False):
+    """Fills a template file.
 
     Args:
         path (str): The path of the target file
@@ -159,8 +162,8 @@ def fill_template (path, subs, comment=False):
     replace_in_file(path, all_subs)
 
 
-def grade_cc (cc):
-    """ Grades a cyclomatic complexity score on a scale from A-F.
+def grade_cc(cc):
+    """Grades a cyclomatic complexity score on a scale from A-F.
 
     Args:
         cc (int): The cyclomatic complexity to grade
@@ -168,20 +171,20 @@ def grade_cc (cc):
         str: The resulting grade
     """
     bounds = [
-        (6, 'A'),
-        (11, 'B'),
-        (21, 'C'),
-        (31, 'D'),
-        (41, 'E') # Add additional bounds here.
+        (6, "A"),
+        (11, "B"),
+        (21, "C"),
+        (31, "D"),
+        (41, "E"),  # Add additional bounds here.
     ]
     for bound in bounds:
         if cc < bound[0]:
-            return bound[1] # Return bound corresponding to grade.
-    return 'F' # Out of bounds, lowest grade.
+            return bound[1]  # Return bound corresponding to grade.
+    return "F"  # Out of bounds, lowest grade.
 
 
-def basename_only (path):
-    """ Returns the base name of a file only, discarding the directory portion.
+def basename_only(path):
+    """Returns the base name of a file only, discarding the directory portion.
 
     Args:
         path (str): The file path to process
@@ -191,23 +194,19 @@ def basename_only (path):
     return os.path.basename(path)
 
 
-def compute_mi_color (mi_rank):
-    """ Computes an appropriate highlight color for a maintainability index based on its rank (A-C).
+def compute_mi_color(mi_rank):
+    """Computes an appropriate highlight color for a maintainability index based on its rank (A-C).
 
     Args:
         mi_rank (str): The maintainability index rank (A-C)
     Returns:
         str: The hexadecimal highlight color
     """
-    return {
-        'A': '#217821',
-        'B': '#D45500',
-        'C': '#800000'
-    }[mi_rank]
+    return {"A": "#217821", "B": "#D45500", "C": "#800000"}[mi_rank]
 
 
-def compute_cc_color (cc_rank):
-    """ Computes an appropriate highlight color for a cyclomatic complexity based on its rank (A-F).
+def compute_cc_color(cc_rank):
+    """Computes an appropriate highlight color for a cyclomatic complexity based on its rank (A-F).
 
     Args:
         mi_rank (str): The cyclomatic complexity rank (A-F)
@@ -215,17 +214,17 @@ def compute_cc_color (cc_rank):
         str: The hexadecimal highlight color
     """
     return {
-        'A': '#217821',
-        'B': '#D4AA00',
-        'C': '#D45500',
-        'D': '#C87137',
-        'E': '#A02C2C',
-        'F': '#800000'
+        "A": "#217821",
+        "B": "#D4AA00",
+        "C": "#D45500",
+        "D": "#C87137",
+        "E": "#A02C2C",
+        "F": "#800000",
     }[cc_rank]
 
 
-def normalize_path (path):
-    """ Normalizes the case and format of a file path, and converts it to absolute form.
+def normalize_path(path):
+    """Normalizes the case and format of a file path, and converts it to absolute form.
 
     Args:
         path (str): The path to normalize
@@ -235,8 +234,8 @@ def normalize_path (path):
     return os.path.normpath(os.path.normcase(os.path.abspath(path)))
 
 
-def is_inside_dir (file_path, dir_path):
-    """ Checks if a file path resides inside a directory path.
+def is_inside_dir(file_path, dir_path):
+    """Checks if a file path resides inside a directory path.
 
     Args:
         file_path (str): The file path to check
@@ -248,41 +247,47 @@ def is_inside_dir (file_path, dir_path):
     norm_file_path = normalize_path(file_path)
     norm_dir_path = normalize_path(dir_path)
     # Now, check if the file path is longer than and starts with the directory path.
-    return len(norm_file_path) > len(norm_dir_path) and norm_file_path.startswith(norm_dir_path)
+    return len(norm_file_path) > len(norm_dir_path) and norm_file_path.startswith(
+        norm_dir_path
+    )
 
 
-def hex_byte (n):
-    """ Computes a minimum 2-character hexadecimal byte for an integer 0-255.
+def hex_byte(n):
+    """Computes a minimum 2-character hexadecimal byte for an integer 0-255.
 
     Args:
         n (int): The integer to compute for
     Returns:
         str: The minimum 2-character hexadecimal representation of the given integer
     """
-    return hex(n).replace('0x', '').zfill(2) # Strip '0x' and pad to length 2 with '0' digits.
+    return (
+        hex(n).replace("0x", "").zfill(2)
+    )  # Strip '0x' and pad to length 2 with '0' digits.
 
 
 # If configuration file doesn't exist, ask to create one.
 if not os.path.exists(CONFIG_LOCATION):
-    confirm = input('Warning: No .heliumrc file detected. Generate one now? [y/N] ')
-    if confirm.lower() == 'y':
-        proj_name = input('Project name: ') # Choose project name.
+    confirm = input("Warning: No .heliumrc file detected. Generate one now? [y/N] ")
+    if confirm.lower() == "y":
+        proj_name = input("Project name: ")  # Choose project name.
         # File selector pattern defaults to all *.py files.
-        proj_pattern = input('Pattern (leave blank for all Python files): ')
-        if proj_pattern == '':
-            proj_pattern = './**/*.py'
+        proj_pattern = input("Pattern (leave blank for all Python files): ")
+        if proj_pattern == "":
+            proj_pattern = "./**/*.py"
         # Adjust default config structure according to input and write it out as a JSON file.
-        DEFAULT_CONFIG['name'] = proj_name
-        DEFAULT_CONFIG['pattern'] = proj_pattern
-        with open(CONFIG_LOCATION, 'w') as file:
+        DEFAULT_CONFIG["name"] = proj_name
+        DEFAULT_CONFIG["pattern"] = proj_pattern
+        with open(CONFIG_LOCATION, "w") as file:
             file.write(json.dumps(DEFAULT_CONFIG, indent=4))
         # Confirm proceed with report.
-        confirm = input('The .heliumrc file has been created. Proceed with report generation? [y/N] ')
-        if confirm.lower() != 'y':
-            print('Aborting...')
+        confirm = input(
+            "The .heliumrc file has been created. Proceed with report generation? [y/N] "
+        )
+        if confirm.lower() != "y":
+            print("Aborting...")
             exit(0)
     else:
-        print('No .heliumrc file created. Aborting...')
+        print("No .heliumrc file created. Aborting...")
         exit(0)
 
 # Load config file.
@@ -290,17 +295,17 @@ config = load_json_file(CONFIG_LOCATION)
 
 # Discover files and remove excluded.
 files = []
-all_files = glob.glob(config['pattern'], recursive=True)
+all_files = glob.glob(config["pattern"], recursive=True)
 for file in all_files:
     is_excluded = False
-    for exclude in config['excludes']:
-        if os.path.isfile(exclude): # If we're excluding a specific file...
+    for exclude in config["excludes"]:
+        if os.path.isfile(exclude):  # If we're excluding a specific file...
             if os.path.samefile(file, exclude):
-                is_excluded = True # File is excluded.
+                is_excluded = True  # File is excluded.
                 break
-        elif os.path.isdir(exclude): # If we're excluding a whole directory...
+        elif os.path.isdir(exclude):  # If we're excluding a whole directory...
             if is_inside_dir(file, exclude):
-                is_excluded = True # File is excluded.
+                is_excluded = True  # File is excluded.
                 break
     # Only add file if it's not excluded.
     if not is_excluded:
@@ -311,26 +316,25 @@ temp_svg = mkstemp()[1]
 initialize_report_svg(temp_svg)
 
 # Maintainability index harvester.
-mi_harvester = MIHarvester(files, Config(**config['mi_config']))
+mi_harvester = MIHarvester(files, Config(**config["mi_config"]))
 
 # Fill project name and report generation date.
-fill_template(temp_svg, [
-    ('proj_name', config['name']),
-    ('report_date', datetime.now().strftime('%d/%m/%Y %H:%M:%S'))]
+fill_template(
+    temp_svg,
+    [
+        ("proj_name", config["name"]),
+        ("report_date", datetime.now().strftime("%d/%m/%Y %H:%M:%S")),
+    ],
 )
 
 # Structure output from maintainability index harvester as one dictionary per file.
 mi_results = []
 for result in mi_harvester.results:
     path, props = result
-    mi_results.append({
-        'path': path,
-        'mi': props['mi'],
-        'rank': props['rank']
-    })
+    mi_results.append({"path": path, "mi": props["mi"], "rank": props["rank"]})
 
 # Sort lowest maintainability index first.
-mi_results.sort(key=lambda r: r['mi'])
+mi_results.sort(key=lambda r: r["mi"])
 
 # Extract lowest DISPL_MI_RESULTS maintainability indices.
 lowest_mi_results = mi_results[:DISPL_MI_RESULTS]
@@ -338,47 +342,58 @@ lowest_mi_results = mi_results[:DISPL_MI_RESULTS]
 # Fill lowest DISPL_MI_RESULTS maintainability indices.
 i = 1
 for result in lowest_mi_results:
-    fill_template(temp_svg, [
-        (f'm{i}', result['rank']),
-        (f'mq{i}', str(round(result['mi'], 2))),
-        (f'mf_{i}', result['path'])
-    ])
-    replace_in_file(temp_svg, [ # Colour circles.
-        (f'#ff{hex_byte(i)}ff', compute_mi_color(result['rank'])),
-    ])
+    fill_template(
+        temp_svg,
+        [
+            (f"m{i}", result["rank"]),
+            (f"mq{i}", str(round(result["mi"], 2))),
+            (f"mf_{i}", result["path"]),
+        ],
+    )
+    replace_in_file(
+        temp_svg,
+        [  # Colour circles.
+            (f"#ff{hex_byte(i)}ff", compute_mi_color(result["rank"])),
+        ],
+    )
     i += 1
 
 # Fill in rest of MIs with blanks if we haven't made display quota.
 while i <= DISPL_MI_RESULTS:
-    fill_template(temp_svg, [
-        (f'm{i}', 'N/A'),
-        (f'mq{i}', 'N/A'),
-        (f'mf_{i}', 'N/A')
-    ])
-    replace_in_file(temp_svg, [ # Colour circles.
-        (f'#ff{hex_byte(i)}ff', '#c0c0c0'),
-    ])
+    fill_template(temp_svg, [(f"m{i}", "N/A"), (f"mq{i}", "N/A"), (f"mf_{i}", "N/A")])
+    replace_in_file(
+        temp_svg,
+        [  # Colour circles.
+            (f"#ff{hex_byte(i)}ff", "#c0c0c0"),
+        ],
+    )
     i += 1
 
 # Cyclomatic complexity harvester for all files, or lowest MI files depending on config.
-cc_targets = files if config['separate_metrics'] else [r['path'] for r in lowest_mi_results]
-cc_harvester = CCHarvester(cc_targets, Config(**config['cc_config']))
+cc_targets = (
+    files if config["separate_metrics"] else [r["path"] for r in lowest_mi_results]
+)
+cc_harvester = CCHarvester(cc_targets, Config(**config["cc_config"]))
 
 # Structure output from cyclomatic complexity harvester as one dictionary per function.
 cc_results = []
 for result in cc_harvester.results:
     path, nodes = result
     for node in nodes:
-        if type(node) == radon.visitors.Function: # We're only interested in functions.
-            cc_results.append({
-                'path': path,
-                'name': node.name,
-                'complexity': node.complexity,
-                'rank': grade_cc(node.complexity) # Grades need to be done manually.
-            })
+        if type(node) == radon.visitors.Function:  # We're only interested in functions.
+            cc_results.append(
+                {
+                    "path": path,
+                    "name": node.name,
+                    "complexity": node.complexity,
+                    "rank": grade_cc(
+                        node.complexity
+                    ),  # Grades need to be done manually.
+                }
+            )
 
 # Sort highest cyclomatic complexity first.
-cc_results.sort(key=lambda r: r['complexity'], reverse=True)
+cc_results.sort(key=lambda r: r["complexity"], reverse=True)
 
 # Extract highest DISPL_CC_RESULTS cyclomatic complexities.
 highest_cc_results = cc_results[:DISPL_CC_RESULTS]
@@ -386,29 +401,44 @@ highest_cc_results = cc_results[:DISPL_CC_RESULTS]
 # Fill highest DISPL_CC_RESULTS cyclomatic complexities.
 i = 1
 for result in highest_cc_results:
-    fill_template(temp_svg, [
-        (f'cc{i}', result['rank']),
-        (f'ccq{i}', str(result['complexity'])),
-        (f'ccn{i}', result['name']),
-        (f'ccf{i}', basename_only(result['path'])),
-    ])
-    replace_in_file(temp_svg, [ # Colour circles.
-        (f'#ff{hex_byte(i + DISPL_MI_RESULTS)}ff', compute_cc_color(result['rank'])),
-    ])
+    fill_template(
+        temp_svg,
+        [
+            (f"cc{i}", result["rank"]),
+            (f"ccq{i}", str(result["complexity"])),
+            (f"ccn{i}", result["name"]),
+            (f"ccf{i}", basename_only(result["path"])),
+        ],
+    )
+    replace_in_file(
+        temp_svg,
+        [  # Colour circles.
+            (
+                f"#ff{hex_byte(i + DISPL_MI_RESULTS)}ff",
+                compute_cc_color(result["rank"]),
+            ),
+        ],
+    )
     i += 1
 
 # Fill in rest of CCs with blanks if we haven't made display quota.
 while i <= DISPL_MI_RESULTS + DISPL_CC_RESULTS:
-    fill_template(temp_svg, [
-        (f'cc{i}', 'N/A'),
-        (f'ccq{i}', 'N/A'),
-        (f'ccn{i}', 'N/A'),
-        (f'ccf{i}', 'N/A'),
-    ])
-    replace_in_file(temp_svg, [ # Colour squares.
-        (f'#ff{hex_byte(i)}ff', '#c0c0c0'),
-    ])
+    fill_template(
+        temp_svg,
+        [
+            (f"cc{i}", "N/A"),
+            (f"ccq{i}", "N/A"),
+            (f"ccn{i}", "N/A"),
+            (f"ccf{i}", "N/A"),
+        ],
+    )
+    replace_in_file(
+        temp_svg,
+        [  # Colour squares.
+            (f"#ff{hex_byte(i)}ff", "#c0c0c0"),
+        ],
+    )
     i += 1
 
 # Perform conversion to PDF.
-svg_to_pdf(temp_svg, 'helium.pdf')
+svg_to_pdf(temp_svg, "helium.pdf")
